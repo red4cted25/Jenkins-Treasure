@@ -782,3 +782,37 @@ const input = [
     "BFBFFFFRLL",
 ];
 
+// Decode Coords
+function decodeCoords(array) {
+    array.forEach((item) => {
+        // Splits each item into the row and col directions
+        const rowPart = item.slice(0, 7);
+        const colPart = item.slice(7);
+        let rowBot = 0;
+        let rowTop = 127;
+        let colBot = 0;
+        let colTop = 7;
+        // Find Row
+        rowPart.split('').forEach((rowItem) => {
+            rowItem == 'F'? rowTop = Math.floor((rowTop + rowBot) / 2) : rowBot = Math.ceil((rowTop + rowBot) / 2);
+        });
+        const finalRow = rowTop;
+
+        // Find Col
+        colPart.split('').forEach(colItem => {
+            colItem == 'L'? colTop = Math.floor((colTop + colBot) / 2) : colBot = Math.ceil((colTop + colBot) / 2);
+        });
+        const finalCol = colTop;
+
+        // Return grid coords
+        coordsGrid.push((finalRow * 8) + finalCol);
+    });
+}
+// Find the Range of Digging
+coordsGrid = [];
+decodeCoords(input);
+coordsGrid.sort((a, b) => a - b);
+let coordsMax = coordsGrid[coordsGrid.length - 1];
+let coordsMin = coordsGrid[0];
+
+// Identifying Missing Squares
