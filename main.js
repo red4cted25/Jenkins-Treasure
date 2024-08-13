@@ -812,7 +812,18 @@ function decodeCoords(array) {
 coordsGrid = [];
 decodeCoords(input);
 coordsGrid.sort((a, b) => a - b);
-let coordsMax = coordsGrid[coordsGrid.length - 1];
-let coordsMin = coordsGrid[0];
+let coordsMax = coordsGrid[coordsGrid.length - 1], coordsMin = coordsGrid[0];
+console.log(coordsMax, coordsMin);
 
 // Identifying Missing Squares
+let missingSquares = [];
+coordsGrid.every((coord) => {
+    !coordsGrid.includes(coord + 1) && (coord + 1) < coordsMax ? missingSquares.push(coord + 1) : null;
+    return true;
+})
+console.log(missingSquares);
+
+// Backtrack to Find Coordinates
+missingSquares.forEach((square) => {
+    
+})
