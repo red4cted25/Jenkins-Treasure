@@ -782,6 +782,9 @@ const input = [
     "BFBFFFFRLL",
 ];
 
+let row = [];
+let col = [];
+
 // Decode Coords
 function decodeCoords(array) {
     array.forEach((item) => {
@@ -806,6 +809,8 @@ function decodeCoords(array) {
 
         // Return grid coords
         coordsGrid.push((finalRow * 8) + finalCol);
+        row.push(finalRow);
+        col.push(finalCol);
     });
 }
 // Find the Range of Digging
@@ -854,3 +859,26 @@ function backtrackCoords(square) {
 }
 
 console.log(backtrackCoords(missingSquare))
+
+// Finding Safe Code
+function findSafeCode(rowArray, colArray) {
+    // Iterate through arrays of the row and col and get the sums
+    let rowSum = rowArray.reduce((acc, curr) => {
+        return acc + curr;
+    }, 0);
+
+    let colSum = colArray.reduce((acc, curr) => {
+        return acc + curr;
+    }, 0);
+
+    // Calculate the safe code
+    let finalTotal = rowSum * colSum
+    return parseInt(finalTotal.toString().slice(0, 6));
+}
+
+console.log(findSafeCode(row, col));
+
+// Next Level: Visual Grid
+// Outide high & low -> not dug ('.')
+// Inside high & low -> dug ('#')
+// Missing Treasure -> 'X'
