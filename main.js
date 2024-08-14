@@ -816,14 +816,41 @@ let coordsMax = coordsGrid[coordsGrid.length - 1], coordsMin = coordsGrid[0];
 console.log(coordsMax, coordsMin);
 
 // Identifying Missing Squares
-let missingSquares = [];
+let missingSquare;
 coordsGrid.every((coord) => {
-    !coordsGrid.includes(coord + 1) && (coord + 1) < coordsMax ? missingSquares.push(coord + 1) : null;
+    !coordsGrid.includes(coord + 1) && (coord + 1) < coordsMax ? missingSquare = coord + 1 : null;
     return true;
 })
-console.log(missingSquares);
+console.log(missingSquare);
 
 // Backtrack to Find Coordinates
-missingSquares.forEach((square) => {
-    
-})
+function backtrackCoords(square) {
+    let missingRow = Math.floor(square / 8);
+    let missingCol = square % 8;
+    let missingRowPart = '';
+    let missingColPart = '';
+
+    // Find Row Encryption
+    for (let i = 6; i >= 0; i--) {
+        if (missingRow >= Math.pow(2, i)) {
+            missingRowPart += 'B';
+            missingRow -= Math.pow(2, i);
+        } else {
+            missingRowPart += 'F';
+        }
+    }
+
+    // Find Col Encryption
+    for (let i = 2; i >= 0; i--) {
+        if (missingCol >= Math.pow(2, i)) {
+            missingColPart += 'R';
+            missingCol -= Math.pow(2, i);
+        } else {
+            missingColPart += 'L';
+        }
+    }
+
+    return missingRowPart + missingColPart
+}
+
+console.log(backtrackCoords(missingSquare))
