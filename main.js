@@ -832,30 +832,29 @@ console.log(missingSquare);
 function backtrackCoords(square) {
     let missingRow = Math.floor(square / 8);
     let missingCol = square % 8;
-    let missingRowPart = '';
-    let missingColPart = '';
+    let missingCoords = '';
 
     // Find Row Encryption
     for (let i = 6; i >= 0; i--) {
         if (missingRow >= Math.pow(2, i)) {
-            missingRowPart += 'B';
+            missingCoords += 'B';
             missingRow -= Math.pow(2, i);
         } else {
-            missingRowPart += 'F';
+            missingCoords += 'F';
         }
     }
 
     // Find Col Encryption
     for (let i = 2; i >= 0; i--) {
         if (missingCol >= Math.pow(2, i)) {
-            missingColPart += 'R';
+            missingCoords += 'R';
             missingCol -= Math.pow(2, i);
         } else {
-            missingColPart += 'L';
+            missingCoords += 'L';
         }
     }
 
-    return missingRowPart + missingColPart
+    return missingCoords
 }
 
 console.log(backtrackCoords(missingSquare))
@@ -879,6 +878,24 @@ function findSafeCode(rowArray, colArray) {
 console.log(findSafeCode(row, col));
 
 // Next Level: Visual Grid
-// Outide high & low -> not dug ('.')
-// Inside high & low -> dug ('#')
-// Missing Treasure -> 'X'
+let mapArray = Array(1028).fill('.')
+function createVisual() {
+    mapArray.map((item, index) => {
+        // Outide high & low -> not dug ('.')
+        // Inside high & low -> dug ('#')
+        index >= coordsMin && index <= coordsMax ? mapArray[index] = '#' : null;
+        // Missing Treasure -> 'X'
+        index == missingSquare ? mapArray[index] = 'X' : null;
+        return true;
+    })
+    
+    // Split into rows and join each row
+    const visualGrid = [];
+    for (let i = 0; i < mapArray.length; i += 8) {
+        visualGrid.push(mapArray.slice(i, i + 8).join(''));
+    }
+
+    return visualGrid.join('\n');
+}
+
+console.log(createVisual());
